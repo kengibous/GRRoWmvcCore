@@ -1,0 +1,65 @@
+﻿@model IEnumerable<GRRoWmvc.Models.ITRequestViewModels.ITRequestListViewModel>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>                
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompletedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompletedDate)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompletedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompletedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) | |
+                @Html.ActionLink("Complete", "Complete", new { id = item.Id }) |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

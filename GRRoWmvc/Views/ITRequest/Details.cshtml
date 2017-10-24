@@ -1,0 +1,65 @@
+﻿@model GRRoWmvc.Models.ITRequestViewModels.ITRequestDetailsViewModel
+
+<div>
+    <h4>ITRequestDetailsViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RequestedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RequestedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CompletedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CompletedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CompletedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CompletedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CompletionNotes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CompletionNotes)
+        </dd>
+    </dl>
+    <h1>Files</h1>
+    @foreach (var file in Model.RequestFiles)
+    {
+        <a asp-action="Download" asp-controller="ITRequest" asp-route-id="@file.Key">@file.Value</a>         
+    }
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

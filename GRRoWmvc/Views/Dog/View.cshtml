@@ -1,0 +1,83 @@
+﻿@model GRRoWmvc.Models.DogViewModels.DogViewViewModel
+
+<div>
+    <h4>Dog Details</h4>
+    <hr />
+    <div class="row">
+        @foreach (var image in Model.CurrentImages)
+        {
+            <p><img height="300" width="400" alt="Embedded Image" src="@image" /></p>
+        }
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DogId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DogId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SurrenderDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SurrenderDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EnergyLevel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EnergyLevel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InteractionWithDogs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InteractionWithDogs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InteractionWithCats)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InteractionWithCats)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InteractionWithKids)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InteractionWithKids)
+        </dd>
+    </dl>
+    <h1>Dog Updates</h1>
+    @foreach (var update in Model.DogUpdates.OrderByDescending(m=>m.CreateDate.Value))
+    {
+        <h3>@update.CreateDate.Value.ToString("MM/dd/yyyy")</h3>
+        <p>@update.Notes</p>
+    }
+</div>
+<div>
+    <a asp-action="DogList" asp-controller="Dog">Back to List</a>
+</div>

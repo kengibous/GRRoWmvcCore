@@ -1,0 +1,106 @@
+﻿@model GRRoWmvc.Models.DogViewModels.DogEditViewModel
+@using GRRoWmvc.Data.Enums
+@using GRRoWmvc.Extensions;
+
+@{
+    ViewData["Title"] = "Edit Dog";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DogId" class="control-label"></label>
+                <input asp-for="DogId" class="form-control" />
+                <span asp-validation-for="DogId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfileImage" class="control-label"></label>
+                <p>Upload one file using this form:</p>
+                <input accept=".jpeg,.jpg,.png" type="file" name="ProfileImage" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" asp-items="@Html.GetEnumSelectList<DogStatusEnum>()" class="form-control"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SurrenderDate" class="control-label"></label>
+                <input asp-for="SurrenderDate" class="form-control" />
+                <span asp-validation-for="SurrenderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<DogGenderEnum>()" class="form-control"></select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnergyLevel" class="control-label"></label>
+                <select asp-for="EnergyLevel" asp-items="@Html.GetEnumSelectList<DogEnergyEnum>()" class="form-control"></select>
+                <span asp-validation-for="EnergyLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InteractionWithDogs" class="control-label"></label>
+                <select asp-for="InteractionWithDogs" asp-items="@Html.GetEnumSelectList<InteractionWithDogsEnum>()" class="form-control"></select>
+                <span asp-validation-for="InteractionWithDogs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InteractionWithCats" class="control-label"></label>
+                <select asp-for="InteractionWithCats" asp-items="@Html.GetEnumSelectList<InteractionWithCatsEnum>()" class="form-control"></select>
+                <span asp-validation-for="InteractionWithCats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InteractionWithKids" class="control-label"></label>
+                <select asp-for="InteractionWithKids" asp-items="@Html.GetEnumSelectList<InteractionWithKidsEnum>()" class="form-control"></select>
+                <span asp-validation-for="InteractionWithKids" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DogImages" class="control-label"></label>
+                <p>Upload one or more files using this form:</p>
+                <input accept=".jpeg,.jpg,.png" type="file" name="DogImages" multiple class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+@foreach (var image in Model.CurrentDogImages)
+{
+    <p>
+        <img height="300" width="400" alt="Embedded Image" src="@Html.ToBase64Image(image.ImageData,image.ImageName)" />
+        <a asp-action="DeleteDogImage"
+           asp-route-dogId="@Model.Id"
+           asp-route-imageId="@image.Id">
+        Delete
+        </a>
+    </p>
+}
+</div>
+
+<div>
+    <a asp-action="DogList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

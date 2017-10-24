@@ -1,0 +1,14 @@
+﻿- Profile Image
+- Delete Image
+- Dog Views (Adoption, Bridge, Happy)
+- Soft Delete Dog
+- Roles Assignment Page
+- User Enablement Page
++ prettyify
++ pagination, filter, search
++ embedded view
++ logging
+? azure deploy
++ send grid
+	- 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
+	- GRRoWMVC
