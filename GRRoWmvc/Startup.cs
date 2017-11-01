@@ -14,6 +14,11 @@ using GRRoWmvc.Services;
 
 namespace GRRoWmvc
 {
+    public class AuthMessageSenderOptions
+    {
+        public string SendGridUser { get; set; }
+        public string SendGridKey { get; set; }
+    }
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -67,6 +72,7 @@ namespace GRRoWmvc
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddMvc();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

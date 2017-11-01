@@ -9,6 +9,6 @@
 + embedded view
 + logging
 ? azure deploy
-+ send grid
-	- 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
+- send grid
+	- (moved to secrets)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
 	- GRRoWMVC
