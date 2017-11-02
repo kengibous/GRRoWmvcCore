@@ -80,13 +80,39 @@ namespace GRRoWmvc.Controllers
                 }
                 await _dbContext.SaveChangesAsync();
             }
-            return View(model);
+            return RedirectToAction("DogList");
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> DogList()
+        //{
+        //    var dogs =  _dbContext.Dogs.Where(x=> !x.IsDeleted).Take(10).OrderByDescending(d => d.DogId).Select(x => new DogListItemViewModel()
+        //    {
+        //        Id = x.Id,
+        //        DogId = x.DogId,
+        //        DogStatus = x.DogStatus,
+        //        Gender = x.Gender,
+        //        Name = x.Name
+        //    });
+        //    return View(await dogs.ToListAsync());
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> DogList()
+        public async Task<IActionResult> DogList(
+            string currentFilter,
+            string searchString,
+            int? page)
         {
-            var dogs =  _dbContext.Dogs.Where(x=> !x.IsDeleted).Take(10).OrderByDescending(d => d.DogId).Select(x => new DogListItemViewModel()
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            var dogs = _dbContext.Dogs.Where(x => !x.IsDeleted).Take(10).OrderByDescending(d => d.DogId).Select(x => new DogListItemViewModel()
             {
                 Id = x.Id,
                 DogId = x.DogId,
@@ -94,7 +120,14 @@ namespace GRRoWmvc.Controllers
                 Gender = x.Gender,
                 Name = x.Name
             });
-            return View(await dogs.ToListAsync());
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                dogs = dogs.Where(s => s.DogId.Contains(searchString)
+                                       || s.Name.Contains(searchString));
+            }
+            int pageSize = 10;
+            return View(await PaginatedList<DogListItemViewModel>.CreateAsync(dogs.AsNoTracking(), page ?? 1, pageSize));
         }
 
         public async Task<IActionResult> DeleteDogImage(int dogId, int imageId)
