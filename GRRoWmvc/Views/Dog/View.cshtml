@@ -1,15 +1,18 @@
 ﻿@model GRRoWmvc.Models.DogViewModels.DogViewViewModel
+@using GRRoWmvc.Data.Enums
+@using GRRoWmvc.Extensions;
 
-<div>
+@{
+    ViewData["Title"] = "View Dog";
+}
+<dd>
     <h4>Dog Details</h4>
     <hr />
-    <div class="row">
-        @foreach (var image in Model.CurrentImages)
-        {
-            <p><img height="300" width="400" alt="Embedded Image" src="@image" /></p>
-        }
-    </div>
     <dl class="dl-horizontal">
+        <dt>Profile Image</dt>
+        <dd>
+            <img height="300" width="400" alt="Profile Image" src="@Html.ToBase64Image(Model.CurrentProfile.ImageData, Model.CurrentProfile.ImageName)" />
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DogId)
         </dt>
@@ -71,13 +74,26 @@
             @Html.DisplayFor(model => model.InteractionWithKids)
         </dd>
     </dl>
-    <h1>Dog Updates</h1>
-    @foreach (var update in Model.DogUpdates.OrderByDescending(m=>m.CreateDate.Value))
+    
+</dd>
+
+<h1>Dog Photos</h1>
+<div class="row">
+    @foreach (var image in Model.CurrentDogImages)
     {
-        <h3>@update.CreateDate.Value.ToString("MM/dd/yyyy")</h3>
-        <p>@update.Notes</p>
+        <p>
+            <img height="300" width="400" alt="Embedded Image" src="@Html.ToBase64Image(image.ImageData,image.ImageName)" />            
+        </p>
     }
 </div>
+
+<h1>Dog Updates</h1>
+@foreach (var update in Model.DogUpdates.OrderByDescending(m => m.CreateDate.Value))
+{
+    <h3>@update.CreateDate.Value.ToString("MM/dd/yyyy")</h3>
+        <p>@update.Notes</p>
+}
+
 <div>
     <a asp-action="DogList" asp-controller="Dog">Back to List</a>
 </div>

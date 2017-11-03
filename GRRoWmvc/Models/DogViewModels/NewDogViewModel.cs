@@ -28,6 +28,8 @@ namespace GRRoWmvc.Models.DogViewModels
         public DogStatusEnum Status { get; set; }
 
         [Required, DisplayName("Surrender Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTimeOffset SurrenderDate { get; set; }
 
         [Required]

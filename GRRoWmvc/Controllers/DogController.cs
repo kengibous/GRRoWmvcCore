@@ -144,6 +144,7 @@ namespace GRRoWmvc.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var dog = await _dbContext.Dogs
+                .Include(x => x.DogUpdates)
                 .Include(x => x.DogImages)
                 .Include(x => x.ProfileImage)
                 .FirstOrDefaultAsync(x=> x.Id == id);

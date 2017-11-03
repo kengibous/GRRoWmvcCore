@@ -12,6 +12,10 @@
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">                
+                <label>Profile Image</label>
+                <img height="300" width="400" alt="Profile Image" src="@Html.ToBase64Image(Model.CurrentProfile.ImageData, Model.CurrentProfile.ImageName)" />                
+            </div>
             <div class="form-group">
                 <label asp-for="DogId" class="control-label"></label>
                 <input asp-for="DogId" class="form-control" />
@@ -83,6 +87,8 @@
         </form>
     </div>
 </div>
+
+<h1>Dog Photos</h1>
 <div class="row">
 @foreach (var image in Model.CurrentDogImages)
 {
@@ -91,11 +97,18 @@
         <a asp-action="DeleteDogImage"
            asp-route-dogId="@Model.Id"
            asp-route-imageId="@image.Id">
-        Delete
+        Remove Photo
         </a>
     </p>
 }
 </div>
+
+<h1>Dog Updates</h1>
+@foreach (var update in Model.DogUpdates.OrderByDescending(m => m.CreateDate.Value))
+{
+    <h3>@update.CreateDate.Value.ToString("MM/dd/yyyy")</h3>
+    <p>@update.Notes</p>
+}
 
 <div>
     <a asp-action="DogList">Back to List</a>

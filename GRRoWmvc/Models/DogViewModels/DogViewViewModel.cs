@@ -25,6 +25,8 @@ namespace GRRoWmvc.Models.DogViewModels
 
         [ReadOnly(true)]
         [DisplayName("Surrender Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTimeOffset SurrenderDate { get; set; }
 
         [ReadOnly(true)]
@@ -54,7 +56,9 @@ namespace GRRoWmvc.Models.DogViewModels
         [EnumDataType(typeof(InteractionWithKidsEnum))]
         public InteractionWithKidsEnum InteractionWithKids { get; set; }
 
-        public List<string> CurrentImages { get; set; } = new List<string>();
+        public List<DogImage> CurrentDogImages { get; set; } = new List<DogImage>();
+
+        public DogProfileImage CurrentProfile { get; set; }
 
         public List<DogUpdateViewModel.DogUpdateViewModel> DogUpdates { get; set; } = new List<DogUpdateViewModel.DogUpdateViewModel>();
         
@@ -71,6 +75,12 @@ namespace GRRoWmvc.Models.DogViewModels
             InteractionWithKids = dog.InteractionWithKids;
             Status = dog.DogStatus;
             var imageList = new List<string>();
+
+            if (dog.ProfileImage != null)
+            {
+                this.CurrentProfile = dog.ProfileImage;
+            }
+
             foreach (var image in dog.DogImages)
             {
                 string base64String = Convert.ToBase64String(image.ImageData);
@@ -79,13 +89,19 @@ namespace GRRoWmvc.Models.DogViewModels
                     image.ImageName.Substring(image.ImageName.LastIndexOf('.')) + ";base64," +
                     base64String);
             }
-            foreach ( var update in dog.DogUpdates)
+            foreach (var image in dog.DogImages)
             {
-                var updateView = new DogUpdateViewModel.DogUpdateViewModel();
-                updateView.CopyFrom(update);
-                this.DogUpdates.Add(updateView);
+                this.CurrentDogImages.Add(image);
             }
-            CurrentImages = imageList;
+            if(dog.DogUpdates?.Count > 0)
+            {
+                this.DogUpdates = dog.DogUpdates.OrderByDescending(du => du.CreateDate).Select(du => new DogUpdateViewModel.DogUpdateViewModel
+                {
+                    CreateDate = du.CreateDate,
+                    DogId = du.DogId,
+                    Notes = du.Notes
+                }).ToList();
+            }
         }
     }
 }

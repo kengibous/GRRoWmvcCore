@@ -12,6 +12,8 @@ namespace GRRoWmvc.Models.DogUpdateViewModel
     {
         
         [Required, DisplayName("Create Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTimeOffset? CreateDate { get; set; }
 
         [MaxLength(1500)]

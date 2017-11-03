@@ -171,8 +171,19 @@ namespace GRRoWmvc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string currentFilter,
+            string searchString,
+            int? page)
         {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
             var requests = _dbContext.ITRequests.Take(10).OrderByDescending(i => i.Id).Select(x => new ITRequestListViewModel()
             {
                 CompletedBy = x.CompletedBy,
@@ -183,7 +194,15 @@ namespace GRRoWmvc.Controllers
                 RequestedDate = x.RequestedDate,
                 Status = x.Status
             });
-            return View(await requests.ToListAsync());
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                requests = requests.Where(s => s.Id.ToString().Contains(searchString)
+                                       || s.Description.Contains(searchString));
+            }
+
+            int pageSize = 10;
+            return View(await PaginatedList<ITRequestListViewModel>.CreateAsync(requests.AsNoTracking(), page ?? 1, pageSize));
         }        
     }
 }

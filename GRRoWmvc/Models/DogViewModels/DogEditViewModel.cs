@@ -30,6 +30,8 @@ namespace GRRoWmvc.Models.DogViewModels
         public DogStatusEnum Status { get; set; }
 
         [Required, DisplayName("Surrender Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTimeOffset SurrenderDate { get; set; }
 
         [Required]
@@ -69,6 +71,9 @@ namespace GRRoWmvc.Models.DogViewModels
         public List<DogImage> CurrentDogImages { get; set; } = new List<DogImage>();
 
         public DogProfileImage CurrentProfile { get; set; }
+
+        public List<DogUpdateViewModel.DogUpdateViewModel> DogUpdates { get; set; } = new List<DogUpdateViewModel.DogUpdateViewModel>();
+
 
         public void CopyTo(Dog dog)
         {
@@ -129,7 +134,15 @@ namespace GRRoWmvc.Models.DogViewModels
             {
                 this.CurrentDogImages.Add(image);
             }
-            
+            if (dog.DogUpdates?.Count > 0)
+            {
+                this.DogUpdates = dog.DogUpdates.OrderByDescending(du => du.CreateDate).Select(du => new DogUpdateViewModel.DogUpdateViewModel
+                {
+                    CreateDate = du.CreateDate,
+                    DogId = du.DogId,
+                    Notes = du.Notes
+                }).ToList();
+            }
         }
 
     }

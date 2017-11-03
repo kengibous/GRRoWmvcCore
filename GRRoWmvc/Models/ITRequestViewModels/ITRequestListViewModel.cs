@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +26,7 @@ namespace GRRoWmvc.Models.ITRequestViewModels
 
         [ReadOnly(true)]
         [DisplayName("Request Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTimeOffset? RequestedDate { get; set; }
 
         [ReadOnly(true)]
@@ -33,6 +35,7 @@ namespace GRRoWmvc.Models.ITRequestViewModels
 
         [ReadOnly(true)]
         [DisplayName("Completed Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTimeOffset? CompletedDate { get; set; }
 
     }
